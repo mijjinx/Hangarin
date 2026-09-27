@@ -1,0 +1,22 @@
+{% extends 'task/base.html' %}
+
+{% block title %}Confirm Social Login – Hangarin{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:center; align-items:center; min-height:80vh;">
+    <div style="background:#FFFFFF; border-radius:20px; padding:3rem; width:100%; max-width:440px; box-shadow:0 12px 30px rgba(22, 78, 99, 0.1); border:1px solid #CCFBF1; text-align:center;">
+        <h3 style="margin:0 0 1rem 0; font-size:1.5rem; color:#164E63; font-weight:800;">Confirm Sign In</h3>
+        <p style="color:#475569; font-size:0.95rem; margin-bottom:2rem; line-height:1.5;">
+            You are about to sign in using your <strong>{{ provider.name }}</strong> account.
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn-teal" style="width:100%; font-size:1rem; padding:0.85rem; border-radius:10px; font-weight:700; margin-bottom:1rem;">
+                Continue with {{ provider.name }}
+            </button>
+        </form>
+        <a href="{% url 'account_login' %}" style="display:block; text-decoration:none; color:#475569; font-weight:600; font-size:0.9rem;">Cancel</a>
+    </div>
+</div>
+{% endblock %}
