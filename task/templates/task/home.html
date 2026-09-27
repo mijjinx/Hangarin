@@ -20,6 +20,7 @@
         font-weight: 800;
         line-height: 1.2;
         margin: 0 0 1rem 0;
+        letter-spacing: -0.02em;
     }
 
     .hero-banner p {
@@ -35,15 +36,6 @@
         gap: 1rem;
     }
 
-    .hero-decor {
-        position: absolute;
-        right: 3rem;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 4rem;
-        opacity: 0.85;
-    }
-
     .stats-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -52,22 +44,23 @@
     }
 
     .stat-card {
-        background: #FFFFFF;
+        background: #164E63;
         border-radius: 16px;
         padding: 1.5rem;
         box-shadow: 0 4px 12px rgba(15, 118, 110, 0.05);
-        border: 1px solid #CCFBF1;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #FFFFFF;
     }
 
     .stat-number {
         font-size: 2.2rem;
         font-weight: 800;
-        color: #0F766E;
+        color: #5EEAD4;
         margin-bottom: 0.25rem;
     }
 
     .stat-label {
-        color: #164E63;
+        color: #ECFEFF;
         font-size: 0.9rem;
         font-weight: 600;
     }
@@ -79,43 +72,44 @@
     }
 
     .feature-card {
-        background: #FFFFFF;
+        background: #164E63;
         border-radius: 16px;
         padding: 1.5rem;
-        border: 1px solid #CCFBF1;
+        border: 1px solid rgba(255, 255, 255, 0.1);
         text-decoration: none;
-        color: inherit;
+        color: #FFFFFF;
         box-shadow: 0 4px 12px rgba(15, 118, 110, 0.04);
         transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .feature-card:hover {
         transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(15, 118, 110, 0.1);
+        box-shadow: 0 8px 20px rgba(15, 118, 110, 0.15);
     }
 
     .feature-card h3 {
         margin: 0 0 0.5rem 0;
         font-size: 1.15rem;
-        color: #164E63;
+        color: #FFFFFF;
+        font-weight: 700;
     }
 
     .feature-card p {
         margin: 0;
-        color: #475569;
+        color: #ECFEFF;
         font-size: 0.9rem;
         line-height: 1.5;
+        opacity: 0.9;
     }
 </style>
 
 <div class="hero-banner">
-    <h1>Plant a task.<br>Watch it grow.</h1>
-    <p>Hangarin keeps your day organized in one place: tasks, the smaller steps inside them, notes you don't want to lose, and the categories and priorities that keep everything sorted.</p>
+    <h1>Organize your goals.<br>Accomplish more.</h1>
+    <p>Hangarin provides a centralized workspace to manage your tasks, track progress across subtasks, save quick reference notes, and organize items by categories and priority levels.</p>
     <div class="hero-buttons">
-        <a href="{% url 'task_list' %}" class="btn-teal">View my tasks</a>
-        <a href="{% url 'task_create' %}" class="btn-outline-white">Add a task</a>
+        <a href="{% url 'task_list' %}" class="btn-teal">View All Tasks</a>
+        <a href="{% url 'task_create' %}" class="btn-outline-white">Create New Task</a>
     </div>
-    <div class="hero-decor">🌱</div>
 </div>
 
 <div class="stats-grid">
@@ -140,23 +134,23 @@
 <div class="features-grid">
     <a href="{% url 'task_list' %}" class="feature-card">
         <h3>Tasks</h3>
-        <p>Everything on your plate, sortable by deadline, category or priority.</p>
+        <p>Manage your primary to-do list with deadlines, categories, and priority settings.</p>
     </a>
     <a href="{% url 'subtask_list' %}" class="feature-card">
         <h3>Subtasks</h3>
-        <p>Break the big stuff into steps you can actually knock out.</p>
+        <p>Divide complex tasks into actionable step-by-step checklists.</p>
     </a>
     <a href="{% url 'note_list' %}" class="feature-card">
         <h3>Notes</h3>
-        <p>Context and reminders attached to the task they belong to.</p>
+        <p>Attach contextual notes, ideas, and quick references directly to your tasks.</p>
     </a>
     <a href="{% url 'category_list' %}" class="feature-card">
         <h3>Categories</h3>
-        <p>Work, school, personal — however you like to organize.</p>
+        <p>Organize your tasks into work, personal, school, or custom categories.</p>
     </a>
     <a href="{% url 'priority_list' %}" class="feature-card">
         <h3>Priorities</h3>
-        <p>From critical to optional, so you know what needs focus first.</p>
+        <p>Assign priority levels from critical to optional to focus on what matters most.</p>
     </a>
 </div>
 {% endblock %}

@@ -7,17 +7,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Hangarin – Task Manager{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --navy: #164E63;
+            --navy-dark: #0E3847;
             --teal: #0F766E;
             --teal-hover: #0d655e;
             --white: #FFFFFF;
             --light-blue: #ECFEFF;
-            --light-bg: #F0FDFA;
-            --text-dark: #164E63;
+            --text-dark: #0F2942;
             --text-muted: #475569;
             --border-light: #CFFAFE;
+            --card-bg: #164E63;
         }
 
         * {
@@ -25,7 +29,9 @@
         }
 
         body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             margin: 0;
             padding: 0;
             background: var(--light-blue);
@@ -57,18 +63,11 @@
         .brand-logo {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 800;
+            letter-spacing: -0.02em;
             color: var(--white);
             text-decoration: none;
-        }
-
-        .brand-tagline {
-            font-size: 0.8rem;
-            color: #A5F3FC;
-            margin-top: 0.25rem;
-            font-weight: 500;
         }
 
         .sidebar-menu {
@@ -112,6 +111,7 @@
             color: #A5F3FC;
             font-size: 0.85rem;
             text-decoration: none;
+            font-weight: 500;
         }
 
         .admin-link:hover {
@@ -149,7 +149,7 @@
             padding: 0.65rem 1.4rem;
             border-radius: 9999px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
             display: inline-block;
             border: none;
             cursor: pointer;
@@ -167,7 +167,7 @@
             padding: 0.65rem 1.4rem;
             border-radius: 9999px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
             display: inline-block;
         }
 
@@ -177,17 +177,21 @@
 
         .grid-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
             margin-top: 1.5rem;
         }
 
         .content-card {
-            background: var(--white);
+            background: var(--card-bg);
             border-radius: 16px;
             padding: 1.5rem;
-            border: 1px solid #CCFBF1;
-            box-shadow: 0 4px 12px rgba(15, 118, 110, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 25px rgba(22, 78, 99, 0.15);
+            color: #FFFFFF;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .form-input {
@@ -199,6 +203,7 @@
             color: var(--navy);
             font-size: 0.95rem;
             box-sizing: border-box;
+            font-family: inherit;
         }
 
         .form-input:focus {
@@ -215,9 +220,8 @@
             <div>
                 <div class="brand-container">
                     <a href="{% url 'home' %}" class="brand-logo">
-                        🌱 Hangarin
+                        Hangarin
                     </a>
-                    <div class="brand-tagline">grow your to-do list</div>
                 </div>
 
                 <nav class="sidebar-menu">
