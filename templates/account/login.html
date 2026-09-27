@@ -1,0 +1,55 @@
+{% extends 'task/base.html' %}
+{% load socialaccount %}
+{% load static %}
+
+{% block title %}Log In – Hangarin{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:center; align-items:center; min-height:80vh;">
+    <div style="background:#FFFFFF; border-radius:20px; padding:3rem; width:100%; max-width:440px; box-shadow:0 12px 30px rgba(22, 78, 99, 0.1); border:1px solid #CCFBF1;">
+        <div style="text-align:center; margin-bottom:2rem;">
+            <h2 style="margin:0; font-size:1.6rem; font-weight:800; color:#164E63; letter-spacing:-0.02em;">Log in to Hangarin</h2>
+        </div>
+
+        {% get_providers as socialaccount_providers %}
+        {% if socialaccount_providers %}
+        <div style="margin-bottom:1.5rem; text-align:center;">
+            <p style="color:#475569; font-size:0.9rem; margin-bottom:1rem; font-weight:600;">Sign in with:</p>
+            <div style="display:flex; justify-content:center; gap:0.75rem;">
+                {% for provider in socialaccount_providers %}
+                <a href="{% provider_login_url provider.id %}" style="display:inline-flex; align-items:center; justify-content:center; padding:0.5rem 1.2rem; border-radius:9999px; background:#F0FDFA; border:1px solid #99F6E4; color:#0F766E; text-decoration:none; font-size:0.9rem; font-weight:700;">
+                    {{ provider.name }}
+                </a>
+                {% endfor %}
+            </div>
+            <div style="color:#94A3B8; margin-top:1.25rem; font-size:0.85rem; font-weight:600;">— or —</div>
+        </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'account_login' %}">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div style="color:#ef4444; margin-bottom:1.25rem; font-size:0.85rem; text-align:center; font-weight:600;">
+                {{ form.non_field_errors.0 }}
+            </div>
+            {% endif %}
+
+            <div style="margin-bottom:1.25rem;">
+                <label for="id_login" style="display:block; margin-bottom:0.45rem; font-weight:700; font-size:0.88rem; color:#164E63;">Email or Username</label>
+                <input type="text" name="login" id="id_login" class="form-input" required autofocus placeholder="Username or email">
+            </div>
+
+            <div style="margin-bottom:1.5rem;">
+                <label for="id_password" style="display:block; margin-bottom:0.45rem; font-weight:700; font-size:0.88rem; color:#164E63;">Password</label>
+                <input type="password" name="password" id="id_password" class="form-input" required placeholder="Password">
+            </div>
+
+            <button type="submit" class="btn-teal" style="width:100%; text-align:center; font-size:1rem; padding:0.85rem; border-radius:10px; font-weight:700;">Sign In</button>
+        </form>
+
+        <div style="text-align:center; margin-top:1.5rem; font-size:0.9rem; color:#475569;">
+            Don't have an account? <a href="{% url 'account_signup' %}" style="color:#0F766E; font-weight:700; text-decoration:none;">Sign Up</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

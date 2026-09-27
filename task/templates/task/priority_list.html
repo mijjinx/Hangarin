@@ -4,24 +4,24 @@
 
 {% block content %}
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
-    <h1 style="margin:0;">Priorities</h1>
-    <a href="{% url 'priority_create' %}" class="btn-green">+ Add Priority</a>
+    <h1 style="margin:0; font-size:2rem; font-weight:800; color:#164E63; letter-spacing:-0.02em;">Priorities</h1>
+    <a href="{% url 'priority_create' %}" class="btn-teal">+ Add Priority</a>
 </div>
 
 <div class="grid-cards">
     {% for priority in priorities %}
     <div class="content-card">
         <div>
-            <h3 style="margin:0;">{{ priority.name }}</h3>
+            <h3 style="margin:0; font-size:1.2rem; font-weight:700; color:#FFFFFF;">{{ priority.name }}</h3>
         </div>
 
-        <div style="display:flex; gap:0.5rem; border-top:1px solid #f1f5f9; padding-top:0.75rem; margin-top:1rem;">
-            <a href="{% url 'priority_update' priority.pk %}" style="background:#e0f2fe; color:#0369a1; padding:0.35rem 0.75rem; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:600;">Edit</a>
-            <a href="{% url 'priority_delete' priority.pk %}" style="background:#fee2e2; color:#b91c1c; padding:0.35rem 0.75rem; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:600;">Delete</a>
+        <div style="display:flex; gap:0.5rem; border-top:1px solid rgba(255,255,255,0.15); padding-top:0.85rem; margin-top:1.25rem;">
+            <a href="{% url 'priority_update' priority.pk %}" style="background:#0284C7; color:#FFFFFF; padding:0.4rem 0.85rem; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:700;">Edit</a>
+            <a href="{% url 'priority_delete' priority.pk %}" style="background:#E11D48; color:#FFFFFF; padding:0.4rem 0.85rem; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:700;">Delete</a>
         </div>
     </div>
     {% empty %}
-    <p>No priorities found.</p>
+    <p style="color:#164E63;">No priorities found.</p>
     {% endfor %}
 </div>
 {% endblock %}

@@ -4,8 +4,8 @@
 
 {% block content %}
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
-    <h1 style="margin:0;">Tasks</h1>
-    <a href="{% url 'task_create' %}" class="btn-green">+ Add Task</a>
+    <h1 style="margin:0; font-size:2rem; font-weight:800; color:#164E63; letter-spacing:-0.02em;">Tasks</h1>
+    <a href="{% url 'task_create' %}" class="btn-teal">+ Add Task</a>
 </div>
 
 <div class="grid-cards">
@@ -13,18 +13,18 @@
     <div class="content-card">
         <div>
             <div style="margin-bottom:0.75rem;">
-                <span style="font-size:0.75rem; font-weight:700; padding:0.2rem 0.6rem; border-radius:9999px; background:#ef4444; color:#fff; margin-right:0.3rem;">{{ task.priority.name }}</span>
-                <span style="font-size:0.75rem; font-weight:700; padding:0.2rem 0.6rem; border-radius:9999px; background:#3b82f6; color:#fff; margin-right:0.3rem;">{{ task.category.name }}</span>
-                <span style="font-size:0.75rem; font-weight:700; padding:0.2rem 0.6rem; border-radius:9999px; background:#10b981; color:#fff;">{{ task.status }}</span>
+                <span style="font-size:0.75rem; font-weight:700; padding:0.25rem 0.6rem; border-radius:9999px; background:#E11D48; color:#fff; margin-right:0.3rem;">{{ task.priority.name }}</span>
+                <span style="font-size:0.75rem; font-weight:700; padding:0.25rem 0.6rem; border-radius:9999px; background:#0284C7; color:#fff; margin-right:0.3rem;">{{ task.category.name }}</span>
+                <span style="font-size:0.75rem; font-weight:700; padding:0.25rem 0.6rem; border-radius:9999px; background:#059669; color:#fff;">{{ task.status }}</span>
             </div>
-            <h3 style="margin:0 0 0.5rem 0; font-size:1.15rem;">{{ task.title }}</h3>
-            <p style="color:var(--text-muted); font-size:0.95rem; margin:0 0 0.75rem 0;">{{ task.description }}</p>
-            <small style="color:#94a3b8;">Deadline: {{ task.deadline|date:"M d, Y H:i" }}</small>
+            <h3 style="margin:0 0 0.5rem 0; font-size:1.2rem; font-weight:700; color:#FFFFFF; letter-spacing:-0.01em;">{{ task.title }}</h3>
+            <p style="color:#ECFEFF; font-size:0.95rem; margin:0 0 0.75rem 0; opacity:0.9; line-height:1.5;">{{ task.description }}</p>
+            <small style="color:#A5F3FC; font-weight:500;">Deadline: {{ task.deadline|date:"M d, Y H:i" }}</small>
 
             {% if task.subtasks.all %}
-            <div style="margin-top:1rem; font-size:0.88rem;">
+            <div style="margin-top:1rem; font-size:0.88rem; color:#ECFEFF;">
                 <strong>Subtasks:</strong>
-                <ul style="margin:0.25rem 0 0 1.2rem; padding:0; color:#475569;">
+                <ul style="margin:0.25rem 0 0 1.2rem; padding:0; color:#CFFAFE;">
                     {% for sub in task.subtasks.all %}
                     <li>{{ sub.title }} (<em>{{ sub.status }}</em>)</li>
                     {% endfor %}
@@ -33,9 +33,9 @@
             {% endif %}
 
             {% if task.notes.all %}
-            <div style="margin-top:0.75rem; font-size:0.88rem;">
+            <div style="margin-top:0.75rem; font-size:0.88rem; color:#ECFEFF;">
                 <strong>Notes:</strong>
-                <ul style="margin:0.25rem 0 0 1.2rem; padding:0; color:#475569;">
+                <ul style="margin:0.25rem 0 0 1.2rem; padding:0; color:#CFFAFE;">
                     {% for note in task.notes.all %}
                     <li>{{ note.content }}</li>
                     {% endfor %}
@@ -44,13 +44,13 @@
             {% endif %}
         </div>
 
-        <div style="display:flex; gap:0.5rem; border-top:1px solid #f1f5f9; padding-top:0.75rem; margin-top:1rem;">
-            <a href="{% url 'task_update' task.pk %}" style="background:#e0f2fe; color:#0369a1; padding:0.35rem 0.75rem; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:600;">Edit</a>
-            <a href="{% url 'task_delete' task.pk %}" style="background:#fee2e2; color:#b91c1c; padding:0.35rem 0.75rem; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:600;">Delete</a>
+        <div style="display:flex; gap:0.5rem; border-top:1px solid rgba(255,255,255,0.15); padding-top:0.85rem; margin-top:1.25rem;">
+            <a href="{% url 'task_update' task.pk %}" style="background:#0284C7; color:#FFFFFF; padding:0.4rem 0.85rem; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:700;">Edit</a>
+            <a href="{% url 'task_delete' task.pk %}" style="background:#E11D48; color:#FFFFFF; padding:0.4rem 0.85rem; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:700;">Delete</a>
         </div>
     </div>
     {% empty %}
-    <p>No tasks found.</p>
+    <p style="color:#164E63;">No tasks found.</p>
     {% endfor %}
 </div>
 {% endblock %}
