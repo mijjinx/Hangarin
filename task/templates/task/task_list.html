@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hangarin – Task List</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #6366f1;
+            --border: #334155;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,.1);
+        }
+        .badge {font-size:.75rem; font-weight:600; padding:.25rem .6rem; border-radius:9999px; margin-right:.5rem;}
+        .badge-priority {background:#ef4444; color:#fff;}
+        .badge-category {background:#3b82f6; color:#fff;}
+        .badge-status   {background:#10b981; color:#fff;}
+    </style>
+</head>
+<body>
+    <h1>Hangarin – Tasks</h1>
+
+    <div class="grid">
+        {% for task in tasks %}
+        <div class="card">
+            <div>
+                <span class="badge badge-priority">{{ task.priority.name }}</span>
+                <span class="badge badge-category">{{ task.category.name }}</span>
+                <span class="badge badge-status">{{ task.status }}</span>
+            </div>
+            <h3>{{ task.title }}</h3>
+            <p style="color:var(--text-muted);">{{ task.description }}</p>
+            <small>Deadline: {{ task.deadline|date:"M d, Y H:i" }}</small>
+
+            {% if task.subtasks.all %}
+            <div style="margin-top:1rem;">
+                <strong>Subtasks:</strong>
+                <ul>
+                    {% for sub in task.subtasks.all %}
+                    <li>{{ sub.title }} (<em>{{ sub.status }}</em>)</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            {% if task.notes.all %}
+            <div style="margin-top:1rem;">
+                <strong>Notes:</strong>
+                <ul>
+                    {% for note in task.notes.all %}
+                    <li>{{ note.content }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>No tasks found. Run <code>python manage.py seed_data</code> to generate demo data.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
