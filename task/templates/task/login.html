@@ -1,0 +1,36 @@
+{% extends 'task/base.html' %}
+
+{% block title %}Login – Hangarin{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:center; align-items:center; min-height:80vh;">
+    <div style="background:#ffffff; border-radius:20px; padding:3rem; width:100%; max-width:400px; box-shadow:0 10px 25px rgba(0,0,0,0.05); border:1px solid var(--border-light);">
+        <div style="text-align:center; margin-bottom:2rem;">
+            <div style="font-size:2.5rem; margin-bottom:0.25rem;">🌱</div>
+            <h2 style="margin:0; font-size:1.5rem; color:#142b24;">Log in to Hangarin</h2>
+            <div style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">grow your to-do list</div>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div style="color:#ef4444; margin-bottom:1rem; font-size:0.85rem; text-align:center;">
+                {{ form.non_field_errors.0 }}
+            </div>
+            {% endif %}
+
+            <div style="margin-bottom:1.25rem;">
+                <label for="id_username" style="display:block; margin-bottom:0.4rem; font-weight:600; font-size:0.85rem; color:#475569;">Username</label>
+                <input type="text" name="username" id="id_username" class="form-input" required autofocus>
+            </div>
+
+            <div style="margin-bottom:1.5rem;">
+                <label for="id_password" style="display:block; margin-bottom:0.4rem; font-weight:600; font-size:0.85rem; color:#475569;">Password</label>
+                <input type="password" name="password" id="id_password" class="form-input" required>
+            </div>
+
+            <button type="submit" class="btn-green" style="width:100%; text-align:center; font-size:1rem; padding:0.8rem;">Log In</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

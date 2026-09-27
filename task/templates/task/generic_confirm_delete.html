@@ -1,0 +1,19 @@
+{% extends 'task/base.html' %}
+
+{% block title %}Delete {{ item_name }} – Hangarin{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:center; margin-top:3rem;">
+    <div style="background:#ffffff; border-radius:16px; padding:2rem; width:100%; max-width:450px; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,0.04); border:1px solid var(--border-light);">
+        <h2 style="margin-top:0; color:#ef4444;">Confirm Delete</h2>
+        <p style="color:#64748b; margin-bottom:2rem;">Are you sure you want to delete <strong>"{{ item_name }}"</strong>?</p>
+        <form method="post">
+            {% csrf_token %}
+            <div style="display:flex; justify-content:center; gap:1rem;">
+                <button type="submit" style="background:#ef4444; color:#fff; padding:0.7rem 1.4rem; border-radius:9999px; border:none; font-weight:600; cursor:pointer;">Yes, Delete</button>
+                <a href="{% url back_url %}" style="background:#f1f5f9; color:#475569; padding:0.7rem 1.4rem; border-radius:9999px; text-decoration:none; font-weight:600;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

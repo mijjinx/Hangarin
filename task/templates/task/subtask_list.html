@@ -1,0 +1,29 @@
+{% extends 'task/base.html' %}
+
+{% block title %}Subtasks – Hangarin{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
+    <h1 style="margin:0;">Subtasks</h1>
+    <a href="{% url 'subtask_create' %}" class="btn-green">+ Add Subtask</a>
+</div>
+
+<div class="grid-cards">
+    {% for subtask in subtasks %}
+    <div class="content-card">
+        <div>
+            <span style="font-size:0.75rem; font-weight:700; padding:0.2rem 0.6rem; border-radius:9999px; background:#10b981; color:#fff;">{{ subtask.status }}</span>
+            <h3 style="margin:0.75rem 0 0.5rem 0;">{{ subtask.title }}</h3>
+            <p style="color:var(--text-muted); font-size:0.9rem; margin:0;">Parent Task: <strong>{{ subtask.parent_task.title }}</strong></p>
+        </div>
+
+        <div style="display:flex; gap:0.5rem; border-top:1px solid #f1f5f9; padding-top:0.75rem; margin-top:1rem;">
+            <a href="{% url 'subtask_update' subtask.pk %}" style="background:#e0f2fe; color:#0369a1; padding:0.35rem 0.75rem; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:600;">Edit</a>
+            <a href="{% url 'subtask_delete' subtask.pk %}" style="background:#fee2e2; color:#b91c1c; padding:0.35rem 0.75rem; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:600;">Delete</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>No subtasks found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'task/base.html' %}
+
+{% block title %}{{ title }} – Hangarin{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:center; margin-top:2rem;">
+    <div style="background:#ffffff; border-radius:16px; padding:2rem; width:100%; max-width:550px; box-shadow:0 4px 16px rgba(0,0,0,0.04); border:1px solid var(--border-light);">
+        <h2 style="margin-top:0; color:#0f172a; margin-bottom:1.5rem;">{{ title }}</h2>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div style="margin-bottom:1.25rem;">
+                <label for="{{ field.id_for_label }}" style="display:block; margin-bottom:0.4rem; font-weight:600; font-size:0.9rem; color:#475569;">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <div style="color:#ef4444; font-size:0.8rem; margin-top:0.25rem;">
+                    {{ field.errors.0 }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <div style="display:flex; gap:1rem; margin-top:2rem;">
+                <button type="submit" class="btn-green">Save</button>
+                <a href="{% url back_url %}" style="background:#f1f5f9; color:#475569; padding:0.7rem 1.4rem; border-radius:9999px; text-decoration:none; font-weight:600;">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
