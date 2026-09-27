@@ -1,9 +1,5 @@
-from hangarin_project.task.models import Note
-from hangarin_project.task.models import Category
-from hangarin_project.task.models import Priority
-from hangarin_project.task.models import SubTask
 from django.contrib import admin
-from .models import Task
+from .models import Task, SubTask, Category, Priority, Note
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
@@ -14,14 +10,15 @@ class TaskAdmin(admin.ModelAdmin):
 
 @admin.register(SubTask)
 class SubTaskAdmin(admin.ModelAdmin):
-    list_display = ('title', 'status', 'parent_task_name')
-    list_filter = ("status")
-    search_fields = ("title")
+    list_display = ("title", "status", "parent_task_name")
+    list_filter = ("status",)
+    search_fields = ("title",)
+
+    @admin.display(description='Parent Task')
+    def parent_task_name(self, obj):
+        return obj.parent_task.title
 
 
-@admin.display(description='Parent Task')
-def parent_task_name(self, obj):
-    return obj.parent_task.title
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -36,7 +33,6 @@ class PriorityAdmin(admin.ModelAdmin):
 
 @admin.register(Note)
 class NoteAdmin(admin.ModelAdmin):
-    list_display = ('task_title', 'content', 'created_at')
-    list_filter = ('created_at',)
-    search_fields = ('content',)
-
+    list_display = ("task", "content", "created_at")
+    list_filter = ("created_at",)
+    search_fields = ("content",)
