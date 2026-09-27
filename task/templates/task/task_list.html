@@ -13,6 +13,8 @@
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --accent: #6366f1;
+            --accent-hover: #4f46e5;
+            --danger: #ef4444;
             --border: #334155;
         }
         body {
@@ -21,6 +23,27 @@
             color: var(--text-main);
             margin: 0;
             padding: 2rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .btn-create {
+            background: var(--accent);
+            color: #fff;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .btn-create:hover {
+            background: var(--accent-hover);
         }
         .grid {
             display: grid;
@@ -33,52 +56,87 @@
             border-radius: 12px;
             padding: 1.25rem;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .badge {font-size:.75rem; font-weight:600; padding:.25rem .6rem; border-radius:9999px; margin-right:.5rem;}
         .badge-priority {background:#ef4444; color:#fff;}
         .badge-category {background:#3b82f6; color:#fff;}
         .badge-status   {background:#10b981; color:#fff;}
+        .card-actions {
+            margin-top: 1.25rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 0.75rem;
+        }
+        .action-link {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+        }
+        .action-edit {
+            background: #3b82f6;
+            color: #fff;
+        }
+        .action-delete {
+            background: #ef4444;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
-    <h1>Hangarin – Tasks</h1>
+    <div class="header">
+        <h1>Hangarin – Tasks</h1>
+        <a href="{% url 'task_create' %}" class="btn-create">+ Create New Task</a>
+    </div>
 
     <div class="grid">
         {% for task in tasks %}
         <div class="card">
             <div>
-                <span class="badge badge-priority">{{ task.priority.name }}</span>
-                <span class="badge badge-category">{{ task.category.name }}</span>
-                <span class="badge badge-status">{{ task.status }}</span>
-            </div>
-            <h3>{{ task.title }}</h3>
-            <p style="color:var(--text-muted);">{{ task.description }}</p>
-            <small>Deadline: {{ task.deadline|date:"M d, Y H:i" }}</small>
+                <div>
+                    <span class="badge badge-priority">{{ task.priority.name }}</span>
+                    <span class="badge badge-category">{{ task.category.name }}</span>
+                    <span class="badge badge-status">{{ task.status }}</span>
+                </div>
+                <h3>{{ task.title }}</h3>
+                <p style="color:var(--text-muted);">{{ task.description }}</p>
+                <small>Deadline: {{ task.deadline|date:"M d, Y H:i" }}</small>
 
-            {% if task.subtasks.all %}
-            <div style="margin-top:1rem;">
-                <strong>Subtasks:</strong>
-                <ul>
-                    {% for sub in task.subtasks.all %}
-                    <li>{{ sub.title }} (<em>{{ sub.status }}</em>)</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
+                {% if task.subtasks.all %}
+                <div style="margin-top:1rem;">
+                    <strong>Subtasks:</strong>
+                    <ul>
+                        {% for sub in task.subtasks.all %}
+                        <li>{{ sub.title }} (<em>{{ sub.status }}</em>)</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
 
-            {% if task.notes.all %}
-            <div style="margin-top:1rem;">
-                <strong>Notes:</strong>
-                <ul>
-                    {% for note in task.notes.all %}
-                    <li>{{ note.content }}</li>
-                    {% endfor %}
-                </ul>
+                {% if task.notes.all %}
+                <div style="margin-top:1rem;">
+                    <strong>Notes:</strong>
+                    <ul>
+                        {% for note in task.notes.all %}
+                        <li>{{ note.content }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
             </div>
-            {% endif %}
+
+            <div class="card-actions">
+                <a href="{% url 'task_update' task.pk %}" class="action-link action-edit">Edit</a>
+                <a href="{% url 'task_delete' task.pk %}" class="action-link action-delete">Delete</a>
+            </div>
         </div>
         {% empty %}
-        <p>No tasks found. Run <code>python manage.py seed_data</code> to generate demo data.</p>
+        <p>No tasks found. Click "+ Create New Task" or run <code>python manage.py seed_data</code> to generate demo data.</p>
         {% endfor %}
     </div>
 </body>
