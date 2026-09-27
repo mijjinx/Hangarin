@@ -6,12 +6,12 @@ class TaskForm(forms.ModelForm):
         model = Task
         fields = ['title', 'description', 'deadline', 'status', 'priority', 'category']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Task title'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Task description'}),
-            'deadline': forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}),
-            'status': forms.Select(attrs={'class': 'form-control'}),
-            'priority': forms.Select(attrs={'class': 'form-control'}),
-            'category': forms.Select(attrs={'class': 'form-control'}),
+            'title': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Task title'}),
+            'description': forms.Textarea(attrs={'class': 'form-input', 'rows': 3, 'placeholder': 'Task description'}),
+            'deadline': forms.DateTimeInput(attrs={'class': 'form-input', 'type': 'datetime-local'}),
+            'status': forms.Select(attrs={'class': 'form-input'}),
+            'priority': forms.Select(attrs={'class': 'form-input'}),
+            'category': forms.Select(attrs={'class': 'form-input'}),
         }
 
 class SubTaskForm(forms.ModelForm):
@@ -19,9 +19,9 @@ class SubTaskForm(forms.ModelForm):
         model = SubTask
         fields = ['parent_task', 'title', 'status']
         widgets = {
-            'parent_task': forms.Select(attrs={'class': 'form-control'}),
-            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Subtask title'}),
-            'status': forms.Select(attrs={'class': 'form-control'}),
+            'parent_task': forms.Select(attrs={'class': 'form-input'}),
+            'title': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Subtask title'}),
+            'status': forms.Select(attrs={'class': 'form-input'}),
         }
 
 class CategoryForm(forms.ModelForm):
@@ -29,7 +29,7 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields = ['name']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Category name'}),
+            'name': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Category name'}),
         }
 
 class PriorityForm(forms.ModelForm):
@@ -37,7 +37,7 @@ class PriorityForm(forms.ModelForm):
         model = Priority
         fields = ['name']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Priority name'}),
+            'name': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Priority name'}),
         }
 
 class NoteForm(forms.ModelForm):
@@ -45,6 +45,6 @@ class NoteForm(forms.ModelForm):
         model = Note
         fields = ['task', 'content']
         widgets = {
-            'task': forms.Select(attrs={'class': 'form-control'}),
-            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, 'placeholder': 'Add a note...'}),
+            'task': forms.Select(attrs={'class': 'form-input'}),
+            'content': forms.Textarea(attrs={'class': 'form-input', 'rows': 3, 'placeholder': 'Add note content...'}),
         }

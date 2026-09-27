@@ -1,0 +1,146 @@
+{% extends 'task/base.html' %}
+
+{% block title %}Home – Hangarin{% endblock %}
+
+{% block content %}
+<style>
+    .hero-banner {
+        background: var(--card-bg);
+        border: 1px solid var(--border-light);
+        border-radius: 16px;
+        padding: 2.5rem;
+        color: #ffffff;
+        margin-bottom: 2rem;
+    }
+
+    .hero-banner h1 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        margin: 0 0 1rem 0;
+    }
+
+    .hero-banner p {
+        color: var(--text-muted);
+        font-size: 1.05rem;
+        line-height: 1.6;
+        max-width: 650px;
+        margin: 0 0 2rem 0;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 1.5rem;
+        border: 1px solid var(--border-light);
+    }
+
+    .stat-number {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: var(--accent);
+        margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+
+    .feature-card {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 1.5rem;
+        border: 1px solid var(--border-light);
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.2s;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-2px);
+    }
+
+    .feature-card h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.1rem;
+        color: #ffffff;
+    }
+
+    .feature-card p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+</style>
+
+<div class="hero-banner">
+    <h1>Plant a task.<br>Watch it grow.</h1>
+    <p>Hangarin keeps your day organized in one place: tasks, the smaller steps inside them, notes you don't want to lose, and the categories and priorities that keep everything sorted.</p>
+    <div class="hero-buttons">
+        <a href="{% url 'task_list' %}" class="btn-primary">View my tasks</a>
+        <a href="{% url 'task_create' %}" style="background:transparent; border:1px solid var(--border-light); color:#fff; padding:0.65rem 1.25rem; border-radius:8px; text-decoration:none; font-weight:600;">Add a task</a>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-number">{{ total_tasks }}</div>
+        <div class="stat-label">Total tasks</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ pending_tasks }}</div>
+        <div class="stat-label">Still pending</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ completed_tasks }}</div>
+        <div class="stat-label">Completed</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ categories_count }}</div>
+        <div class="stat-label">Categories</div>
+    </div>
+</div>
+
+<div class="features-grid">
+    <a href="{% url 'task_list' %}" class="feature-card">
+        <h3>Tasks</h3>
+        <p>Everything on your plate, sortable by deadline, category or priority.</p>
+    </a>
+    <a href="{% url 'subtask_list' %}" class="feature-card">
+        <h3>Subtasks</h3>
+        <p>Break the big stuff into steps you can actually knock out.</p>
+    </a>
+    <a href="{% url 'note_list' %}" class="feature-card">
+        <h3>Notes</h3>
+        <p>Context and reminders attached to the task they belong to.</p>
+    </a>
+    <a href="{% url 'category_list' %}" class="feature-card">
+        <h3>Categories</h3>
+        <p>Work, school, personal — however you like to organize.</p>
+    </a>
+    <a href="{% url 'priority_list' %}" class="feature-card">
+        <h3>Priorities</h3>
+        <p>From critical to optional, so you know what needs focus first.</p>
+    </a>
+</div>
+{% endblock %}

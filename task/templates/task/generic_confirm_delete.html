@@ -3,63 +3,15 @@
 {% block title %}Delete {{ item_name }} – Hangarin{% endblock %}
 
 {% block content %}
-<style>
-    .delete-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 3rem;
-    }
-    .delete-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 2rem;
-        width: 100%;
-        max-width: 450px;
-        text-align: center;
-        box-shadow: 0 4px 6px -1px rgba(0,0,0,.2);
-    }
-    h2 {
-        margin-top: 0;
-        color: var(--danger);
-    }
-    p {
-        color: var(--text-muted);
-        margin-bottom: 2rem;
-    }
-    .btn-group {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-    }
-    .btn {
-        padding: 0.75rem 1.5rem;
-        border-radius: 6px;
-        border: none;
-        cursor: pointer;
-        font-weight: 600;
-        text-decoration: none;
-        display: inline-block;
-    }
-    .btn-danger {
-        background: var(--danger);
-        color: #fff;
-    }
-    .btn-secondary {
-        background: #475569;
-        color: #fff;
-    }
-</style>
-
-<div class="delete-container">
-    <div class="delete-card">
-        <h2>Confirm Delete</h2>
-        <p>Are you sure you want to delete <strong>"{{ item_name }}"</strong>?</p>
+<div style="display:flex; justify-content:center; margin-top:3rem;">
+    <div style="background:#ffffff; border-radius:16px; padding:2rem; width:100%; max-width:450px; text-align:center; box-shadow:0 4px 16px rgba(0,0,0,0.04); border:1px solid var(--border-light);">
+        <h2 style="margin-top:0; color:#ef4444;">Confirm Delete</h2>
+        <p style="color:#64748b; margin-bottom:2rem;">Are you sure you want to delete <strong>"{{ item_name }}"</strong>?</p>
         <form method="post">
             {% csrf_token %}
-            <div class="btn-group">
-                <button type="submit" class="btn btn-danger">Yes, Delete</button>
-                <a href="{% url back_url %}" class="btn btn-secondary">Cancel</a>
+            <div style="display:flex; justify-content:center; gap:1rem;">
+                <button type="submit" style="background:#ef4444; color:#fff; padding:0.7rem 1.4rem; border-radius:9999px; border:none; font-weight:600; cursor:pointer;">Yes, Delete</button>
+                <a href="{% url back_url %}" style="background:#f1f5f9; color:#475569; padding:0.7rem 1.4rem; border-radius:9999px; text-decoration:none; font-weight:600;">Cancel</a>
             </div>
         </form>
     </div>

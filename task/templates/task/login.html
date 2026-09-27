@@ -3,80 +3,33 @@
 {% block title %}Login – Hangarin{% endblock %}
 
 {% block content %}
-<style>
-    .login-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 70vh;
-    }
-    .login-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 2.5rem;
-        width: 100%;
-        max-width: 400px;
-        box-shadow: 0 4px 6px -1px rgba(0,0,0,.2);
-    }
-    .login-card h2 {
-        margin-top: 0;
-        text-align: center;
-        color: var(--text-main);
-    }
-    .form-group {
-        margin-bottom: 1.25rem;
-    }
-    .form-group label {
-        display: block;
-        margin-bottom: 0.5rem;
-        color: var(--text-muted);
-        font-size: 0.9rem;
-    }
-    .form-control {
-        width: 100%;
-        padding: 0.75rem;
-        border-radius: 6px;
-        border: 1px solid var(--border);
-        background: #0f172a;
-        color: #fff;
-        box-sizing: border-box;
-    }
-    .btn-submit {
-        width: 100%;
-        padding: 0.75rem;
-        background: var(--accent);
-        color: #fff;
-        border: none;
-        border-radius: 6px;
-        font-weight: 600;
-        cursor: pointer;
-        margin-top: 1rem;
-    }
-    .btn-submit:hover {
-        background: var(--accent-hover);
-    }
-</style>
+<div style="display:flex; justify-content:center; align-items:center; min-height:80vh;">
+    <div style="background:#ffffff; border-radius:20px; padding:3rem; width:100%; max-width:400px; box-shadow:0 10px 25px rgba(0,0,0,0.05); border:1px solid var(--border-light);">
+        <div style="text-align:center; margin-bottom:2rem;">
+            <div style="font-size:2.5rem; margin-bottom:0.25rem;">🌱</div>
+            <h2 style="margin:0; font-size:1.5rem; color:#142b24;">Log in to Hangarin</h2>
+            <div style="color:#64748b; font-size:0.85rem; margin-top:0.25rem;">grow your to-do list</div>
+        </div>
 
-<div class="login-container">
-    <div class="login-card">
-        <h2>Hangarin Login</h2>
         <form method="post">
             {% csrf_token %}
             {% if form.non_field_errors %}
-            <div style="color:#ef4444; margin-bottom:1rem; font-size:0.9rem;">
+            <div style="color:#ef4444; margin-bottom:1rem; font-size:0.85rem; text-align:center;">
                 {{ form.non_field_errors.0 }}
             </div>
             {% endif %}
-            <div class="form-group">
-                <label for="id_username">Username</label>
-                <input type="text" name="username" id="id_username" class="form-control" required autofocus>
+
+            <div style="margin-bottom:1.25rem;">
+                <label for="id_username" style="display:block; margin-bottom:0.4rem; font-weight:600; font-size:0.85rem; color:#475569;">Username</label>
+                <input type="text" name="username" id="id_username" class="form-input" required autofocus>
             </div>
-            <div class="form-group">
-                <label for="id_password">Password</label>
-                <input type="password" name="password" id="id_password" class="form-control" required>
+
+            <div style="margin-bottom:1.5rem;">
+                <label for="id_password" style="display:block; margin-bottom:0.4rem; font-weight:600; font-size:0.85rem; color:#475569;">Password</label>
+                <input type="password" name="password" id="id_password" class="form-input" required>
             </div>
-            <button type="submit" class="btn-submit">Log In</button>
+
+            <button type="submit" class="btn-green" style="width:100%; text-align:center; font-size:1rem; padding:0.8rem;">Log In</button>
         </form>
     </div>
 </div>

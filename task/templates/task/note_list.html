@@ -1,0 +1,26 @@
+{% extends 'task/base.html' %}
+
+{% block title %}Notes – Hangarin{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
+    <h1 style="margin:0;">Notes</h1>
+    <a href="{% url 'note_create' %}" class="btn-green">+ Add Note</a>
+</div>
+
+<div class="grid-cards">
+    {% for note in notes %}
+    <div class="content-card">
+        <p style="margin:0 0 1rem 0; font-size:1rem; line-height:1.5;">{{ note.content }}</p>
+        <small style="color:var(--text-muted); display:block; margin-bottom:1rem;">Task: <strong>{{ note.task.title }}</strong></small>
+        
+        <div style="display:flex; gap:0.5rem; border-top:1px solid #f1f5f9; padding-top:0.75rem;">
+            <a href="{% url 'note_update' note.pk %}" style="background:#e0f2fe; color:#0369a1; padding:0.35rem 0.75rem; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:600;">Edit</a>
+            <a href="{% url 'note_delete' note.pk %}" style="background:#fee2e2; color:#b91c1c; padding:0.35rem 0.75rem; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:600;">Delete</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>No notes found.</p>
+    {% endfor %}
+</div>
+{% endblock %}
