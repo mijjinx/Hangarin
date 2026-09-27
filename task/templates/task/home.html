@@ -5,22 +5,25 @@
 {% block content %}
 <style>
     .hero-banner {
-        background: var(--card-bg);
-        border: 1px solid var(--border-light);
-        border-radius: 16px;
-        padding: 2.5rem;
-        color: #ffffff;
+        background: linear-gradient(135deg, #164E63 0%, #0F766E 100%);
+        border-radius: 20px;
+        padding: 3rem;
+        color: #FFFFFF;
+        position: relative;
+        overflow: hidden;
         margin-bottom: 2rem;
+        box-shadow: 0 10px 25px rgba(22, 78, 99, 0.15);
     }
 
     .hero-banner h1 {
-        font-size: 2.2rem;
+        font-size: 2.5rem;
         font-weight: 800;
+        line-height: 1.2;
         margin: 0 0 1rem 0;
     }
 
     .hero-banner p {
-        color: var(--text-muted);
+        color: #ECFEFF;
         font-size: 1.05rem;
         line-height: 1.6;
         max-width: 650px;
@@ -32,6 +35,15 @@
         gap: 1rem;
     }
 
+    .hero-decor {
+        position: absolute;
+        right: 3rem;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 4rem;
+        opacity: 0.85;
+    }
+
     .stats-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -40,23 +52,24 @@
     }
 
     .stat-card {
-        background: var(--card-bg);
-        border-radius: 12px;
+        background: #FFFFFF;
+        border-radius: 16px;
         padding: 1.5rem;
-        border: 1px solid var(--border-light);
+        box-shadow: 0 4px 12px rgba(15, 118, 110, 0.05);
+        border: 1px solid #CCFBF1;
     }
 
     .stat-number {
         font-size: 2.2rem;
         font-weight: 800;
-        color: var(--accent);
+        color: #0F766E;
         margin-bottom: 0.25rem;
     }
 
     .stat-label {
-        color: var(--text-muted);
+        color: #164E63;
         font-size: 0.9rem;
-        font-weight: 500;
+        font-weight: 600;
     }
 
     .features-grid {
@@ -66,28 +79,30 @@
     }
 
     .feature-card {
-        background: var(--card-bg);
-        border-radius: 12px;
+        background: #FFFFFF;
+        border-radius: 16px;
         padding: 1.5rem;
-        border: 1px solid var(--border-light);
+        border: 1px solid #CCFBF1;
         text-decoration: none;
         color: inherit;
-        transition: transform 0.2s;
+        box-shadow: 0 4px 12px rgba(15, 118, 110, 0.04);
+        transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .feature-card:hover {
-        transform: translateY(-2px);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(15, 118, 110, 0.1);
     }
 
     .feature-card h3 {
         margin: 0 0 0.5rem 0;
-        font-size: 1.1rem;
-        color: #ffffff;
+        font-size: 1.15rem;
+        color: #164E63;
     }
 
     .feature-card p {
         margin: 0;
-        color: var(--text-muted);
+        color: #475569;
         font-size: 0.9rem;
         line-height: 1.5;
     }
@@ -97,9 +112,10 @@
     <h1>Plant a task.<br>Watch it grow.</h1>
     <p>Hangarin keeps your day organized in one place: tasks, the smaller steps inside them, notes you don't want to lose, and the categories and priorities that keep everything sorted.</p>
     <div class="hero-buttons">
-        <a href="{% url 'task_list' %}" class="btn-primary">View my tasks</a>
-        <a href="{% url 'task_create' %}" style="background:transparent; border:1px solid var(--border-light); color:#fff; padding:0.65rem 1.25rem; border-radius:8px; text-decoration:none; font-weight:600;">Add a task</a>
+        <a href="{% url 'task_list' %}" class="btn-teal">View my tasks</a>
+        <a href="{% url 'task_create' %}" class="btn-outline-white">Add a task</a>
     </div>
+    <div class="hero-decor">🌱</div>
 </div>
 
 <div class="stats-grid">
