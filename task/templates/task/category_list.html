@@ -1,0 +1,27 @@
+{% extends 'task/base.html' %}
+
+{% block title %}Categories – Hangarin{% endblock %}
+
+{% block content %}
+<div class="header-bar">
+    <h1>Categories</h1>
+    <a href="{% url 'category_create' %}" class="btn-create">+ Add Category</a>
+</div>
+
+<div class="grid">
+    {% for category in categories %}
+    <div class="card">
+        <div>
+            <h3>{{ category.name }}</h3>
+        </div>
+
+        <div class="card-actions">
+            <a href="{% url 'category_update' category.pk %}" class="action-link action-edit">Edit</a>
+            <a href="{% url 'category_delete' category.pk %}" class="action-link action-delete">Delete</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>No categories found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

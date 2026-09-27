@@ -1,0 +1,29 @@
+{% extends 'task/base.html' %}
+
+{% block title %}Subtasks – Hangarin{% endblock %}
+
+{% block content %}
+<div class="header-bar">
+    <h1>Subtasks</h1>
+    <a href="{% url 'subtask_create' %}" class="btn-create">+ Add Subtask</a>
+</div>
+
+<div class="grid">
+    {% for subtask in subtasks %}
+    <div class="card">
+        <div>
+            <span class="badge badge-status">{{ subtask.status }}</span>
+            <h3>{{ subtask.title }}</h3>
+            <p style="color:var(--text-muted); font-size:0.9rem;">Parent Task: <strong>{{ subtask.parent_task.title }}</strong></p>
+        </div>
+
+        <div class="card-actions">
+            <a href="{% url 'subtask_update' subtask.pk %}" class="action-link action-edit">Edit</a>
+            <a href="{% url 'subtask_delete' subtask.pk %}" class="action-link action-delete">Delete</a>
+        </div>
+    </div>
+    {% empty %}
+    <p>No subtasks found.</p>
+    {% endfor %}
+</div>
+{% endblock %}
