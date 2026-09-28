@@ -19,10 +19,38 @@ def home(request):
     }
     return render(request, 'task/home.html', context)
 
+from django.db.models import Q
+
 @login_required
 def task_list(request):
     tasks = Task.objects.prefetch_related('subtasks', 'notes').select_related('category', 'priority').all()
-    return render(request, 'task/task_list.html', {'tasks': tasks, 'active_tab': 'tasks'})
+    
+    search_query = request.GET.get('q', '').strip()
+    sort_by = request.GET.get('sort', 'deadline_asc')
+
+    if search_query:
+        tasks = tasks.filter(Q(title__icontains=search_query) | Q(description__icontains=search_query))
+
+    if sort_by == 'deadline_asc':
+        tasks = tasks.order_by('deadline')
+    elif sort_by == 'deadline_desc':
+        tasks = tasks.order_by('-deadline')
+    elif sort_by == 'title_asc':
+        tasks = tasks.order_by('title')
+    elif sort_by == 'title_desc':
+        tasks = tasks.order_by('-title')
+    elif sort_by == 'priority':
+        tasks = tasks.order_by('priority__name')
+    elif sort_by == 'created_at':
+        tasks = tasks.order_by('-created_at')
+
+    context = {
+        'tasks': tasks,
+        'search_query': search_query,
+        'sort_by': sort_by,
+        'active_tab': 'tasks'
+    }
+    return render(request, 'task/task_list.html', context)
 
 @login_required
 def task_create(request):
