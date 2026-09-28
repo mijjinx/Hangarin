@@ -17,7 +17,7 @@
     <div style="display:flex; align-items:center; gap:0.5rem;">
         <label for="sort" style="font-weight:700; color:#164E63; font-size:0.9rem;">Sort by:</label>
         <select name="sort" id="sort" class="form-input" style="width:auto; padding-right:2rem;" onchange="this.form.submit()">
-            <option value="deadline_asc" {% if sort_by == 'deadline_asc' %}selected{% endif %}>Deadline (Soonest)</option>
+            <option value="deadline_asc" {% if sort_by == 'deadline_asc' %}selected{% endif %}>Deadline (Recent)</option>
             <option value="deadline_desc" {% if sort_by == 'deadline_desc' %}selected{% endif %}>Deadline (Latest)</option>
             <option value="title_asc" {% if sort_by == 'title_asc' %}selected{% endif %}>Title (A - Z)</option>
             <option value="title_desc" {% if sort_by == 'title_desc' %}selected{% endif %}>Title (Z - A)</option>

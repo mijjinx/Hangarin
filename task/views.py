@@ -86,7 +86,33 @@ def task_delete(request, pk):
 @login_required
 def subtask_list(request):
     subtasks = SubTask.objects.select_related('parent_task').all()
-    return render(request, 'task/subtask_list.html', {'subtasks': subtasks, 'active_tab': 'subtasks'})
+    
+    search_query = request.GET.get('q', '').strip()
+    sort_by = request.GET.get('sort', 'recent')
+
+    if search_query:
+        subtasks = subtasks.filter(Q(title__icontains=search_query) | Q(parent_task__title__icontains=search_query))
+
+    if sort_by == 'recent':
+        subtasks = subtasks.order_by('-created_at')
+    elif sort_by == 'oldest':
+        subtasks = subtasks.order_by('created_at')
+    elif sort_by == 'title_asc':
+        subtasks = subtasks.order_by('title')
+    elif sort_by == 'title_desc':
+        subtasks = subtasks.order_by('-title')
+    elif sort_by == 'status':
+        subtasks = subtasks.order_by('status')
+    elif sort_by == 'parent_task':
+        subtasks = subtasks.order_by('parent_task__title')
+
+    context = {
+        'subtasks': subtasks,
+        'search_query': search_query,
+        'sort_by': sort_by,
+        'active_tab': 'subtasks'
+    }
+    return render(request, 'task/subtask_list.html', context)
 
 @login_required
 def subtask_create(request):
@@ -122,7 +148,27 @@ def subtask_delete(request, pk):
 @login_required
 def note_list(request):
     notes = Note.objects.select_related('task').all()
-    return render(request, 'task/note_list.html', {'notes': notes, 'active_tab': 'notes'})
+
+    search_query = request.GET.get('q', '').strip()
+    sort_by = request.GET.get('sort', 'recent')
+
+    if search_query:
+        notes = notes.filter(Q(content__icontains=search_query) | Q(task__title__icontains=search_query))
+
+    if sort_by == 'recent':
+        notes = notes.order_by('-created_at')
+    elif sort_by == 'oldest':
+        notes = notes.order_by('created_at')
+    elif sort_by == 'task':
+        notes = notes.order_by('task__title')
+
+    context = {
+        'notes': notes,
+        'search_query': search_query,
+        'sort_by': sort_by,
+        'active_tab': 'notes'
+    }
+    return render(request, 'task/note_list.html', context)
 
 @login_required
 def note_create(request):

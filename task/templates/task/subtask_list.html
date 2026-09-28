@@ -8,6 +8,30 @@
     <a href="{% url 'subtask_create' %}" class="btn-teal">+ Add Subtask</a>
 </div>
 
+<form method="get" action="{% url 'subtask_list' %}" style="display:flex; gap:1rem; margin-bottom:2rem; flex-wrap:wrap; align-items:center;">
+    <div style="flex-grow:1; min-width:240px; position:relative;">
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Search subtasks or parent tasks..." class="form-input" style="padding-left:2.5rem;">
+        <span style="position:absolute; left:0.9rem; top:50%; transform:translateY(-50%); color:#0F766E; font-weight:bold;">🔍</span>
+    </div>
+    
+    <div style="display:flex; align-items:center; gap:0.5rem;">
+        <label for="sort" style="font-weight:700; color:#164E63; font-size:0.9rem;">Sort by:</label>
+        <select name="sort" id="sort" class="form-input" style="width:auto; padding-right:2rem;" onchange="this.form.submit()">
+            <option value="recent" {% if sort_by == 'recent' %}selected{% endif %}>Recent</option>
+            <option value="oldest" {% if sort_by == 'oldest' %}selected{% endif %}>Oldest</option>
+            <option value="title_asc" {% if sort_by == 'title_asc' %}selected{% endif %}>Title (A - Z)</option>
+            <option value="title_desc" {% if sort_by == 'title_desc' %}selected{% endif %}>Title (Z - A)</option>
+            <option value="status" {% if sort_by == 'status' %}selected{% endif %}>Status</option>
+            <option value="parent_task" {% if sort_by == 'parent_task' %}selected{% endif %}>Parent Task</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn-teal" style="border-radius:8px; padding:0.65rem 1.25rem;">Search</button>
+    {% if search_query or sort_by != 'recent' %}
+    <a href="{% url 'subtask_list' %}" style="color:#475569; font-size:0.85rem; font-weight:600; text-decoration:none;">Clear Filter</a>
+    {% endif %}
+</form>
+
 <div class="grid-cards">
     {% for subtask in subtasks %}
     <div class="content-card">
@@ -23,7 +47,7 @@
         </div>
     </div>
     {% empty %}
-    <p style="color:#164E63;">No subtasks found.</p>
+    <p style="color:#164E63; font-weight:600;">No subtasks found matching your search.</p>
     {% endfor %}
 </div>
 {% endblock %}
