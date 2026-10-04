@@ -1,13 +1,29 @@
 {% extends 'task/base.html' %}
+{% load socialaccount %}
 
 {% block title %}Login – Hangarin{% endblock %}
 
 {% block content %}
 <div style="display:flex; justify-content:center; align-items:center; min-height:80vh;">
-    <div style="background:#FFFFFF; border-radius:20px; padding:3rem; width:100%; max-width:400px; box-shadow:0 12px 30px rgba(22, 78, 99, 0.1); border:1px solid #CCFBF1;">
-        <div style="text-align:center; margin-bottom:2.25rem;">
+    <div style="background:#FFFFFF; border-radius:20px; padding:3rem; width:100%; max-width:440px; box-shadow:0 12px 30px rgba(22, 78, 99, 0.1); border:1px solid #CCFBF1;">
+        <div style="text-align:center; margin-bottom:1.75rem;">
             <h2 style="margin:0; font-size:1.6rem; font-weight:800; color:#164E63; letter-spacing:-0.02em;">Log in to Hangarin</h2>
         </div>
+
+        {% get_providers as socialaccount_providers %}
+        {% if socialaccount_providers %}
+        <div style="margin-bottom:1.5rem; text-align:center;">
+            <p style="color:#475569; font-size:0.9rem; margin-bottom:1rem; font-weight:600;">Sign in with:</p>
+            <div style="display:flex; justify-content:center; gap:0.75rem;">
+                {% for provider in socialaccount_providers %}
+                <a href="{% provider_login_url provider.id %}" style="display:inline-flex; align-items:center; justify-content:center; padding:0.5rem 1.2rem; border-radius:9999px; background:#F0FDFA; border:1px solid #99F6E4; color:#0F766E; text-decoration:none; font-size:0.9rem; font-weight:700;">
+                    {{ provider.name }}
+                </a>
+                {% endfor %}
+            </div>
+            <div style="color:#94A3B8; margin-top:1.25rem; font-size:0.85rem; font-weight:600;">— or —</div>
+        </div>
+        {% endif %}
 
         <form method="post">
             {% csrf_token %}
