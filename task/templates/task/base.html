@@ -279,8 +279,33 @@
         </main>
     </div>
 
+    <!-- PWA Install Popup Window -->
+    <div id="pwaInstallPopup" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); z-index:10000; align-items:center; justify-content:center; padding:1.25rem;">
+        <div style="background:#FFFFFF; color:#0F2942; border-radius:20px; max-width:420px; width:100%; padding:2rem; box-shadow:0 25px 50px rgba(0,0,0,0.3); border:1px solid #CCFBF1; text-align:center; position:relative;">
+            <button id="closePwaPopup" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.25rem; cursor:pointer; color:#475569;">✕</button>
+            <div style="display:inline-flex; align-items:center; justify-content:center; width:64px; height:64px; background:#ECFEFF; border-radius:16px; margin-bottom:1rem; border:1px solid #99F6E4;">
+                <img src="/static/img/icon-192.png" alt="Hangarin Icon" style="width:44px; height:44px; border-radius:10px;">
+            </div>
+            <h3 style="margin:0 0 0.5rem 0; color:#164E63; font-size:1.35rem; font-weight:800;">Install Hangarin App</h3>
+            <p style="color:#475569; font-size:0.9rem; margin-bottom:1.25rem; line-height:1.45;">
+                Install Hangarin on your device home screen or desktop for fast offline task management.
+            </p>
+
+            <button id="pwaActionBtn" class="btn-teal" style="width:100%; text-align:center; font-size:1rem; padding:0.85rem; border-radius:12px; font-weight:700; margin-bottom:0.75rem;">
+                Install Application
+            </button>
+
+            <div style="font-size:0.8rem; color:#64748B;">
+                Or click the <b>Install (📥 or ⊕)</b> icon in your browser address bar.
+            </div>
+        </div>
+    </div>
+
     <script>
         const installBtn = document.getElementById('pwaInstallBtn');
+        const pwaPopup = document.getElementById('pwaInstallPopup');
+        const closePwaPopup = document.getElementById('closePwaPopup');
+        const pwaActionBtn = document.getElementById('pwaActionBtn');
 
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/serviceworker.js')
@@ -289,23 +314,35 @@
         }
 
         if (installBtn) {
-            installBtn.addEventListener('click', async () => {
+            installBtn.addEventListener('click', () => {
                 if (window.deferredPrompt) {
-                    try {
-                        window.deferredPrompt.prompt();
-                        const { outcome } = await window.deferredPrompt.userChoice;
-                        console.log('User install choice:', outcome);
-                        window.deferredPrompt = null;
-                    } catch (e) {
-                        console.error('Install prompt error:', e);
-                    }
+                    window.deferredPrompt.prompt();
+                } else {
+                    if (pwaPopup) pwaPopup.style.display = 'flex';
                 }
+            });
+        }
+
+        if (pwaActionBtn) {
+            pwaActionBtn.addEventListener('click', () => {
+                if (window.deferredPrompt) {
+                    window.deferredPrompt.prompt();
+                    window.deferredPrompt = null;
+                }
+                if (pwaPopup) pwaPopup.style.display = 'none';
+            });
+        }
+
+        if (closePwaPopup) {
+            closePwaPopup.addEventListener('click', () => {
+                if (pwaPopup) pwaPopup.style.display = 'none';
             });
         }
 
         window.addEventListener('appinstalled', () => {
             console.log('Hangarin PWA was installed successfully');
             if (installBtn) installBtn.style.display = 'none';
+            if (pwaPopup) pwaPopup.style.display = 'none';
         });
     </script>
 </body>
