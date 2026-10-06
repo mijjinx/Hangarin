@@ -247,6 +247,9 @@
             </div>
 
             <div class="sidebar-footer">
+                <button id="pwaInstallBtn" class="logout-btn" style="display:none; background:#0F766E; border-color:#0F766E; color:#FFFFFF; margin-bottom:0.5rem; text-align:center;">
+                    📲 Install App
+                </button>
                 <a href="/admin/" class="admin-link">Manage in admin →</a>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
@@ -260,5 +263,42 @@
             {% block content %}{% endblock %}
         </main>
     </div>
+
+    <script>
+        let deferredPrompt;
+        const installBtn = document.getElementById('pwaInstallBtn');
+
+        // Register service worker if supported
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/serviceworker.js')
+                .then(reg => console.log('SW Registered:', reg.scope))
+                .catch(err => console.error('SW Reg Error:', err));
+        }
+
+        // Listen for beforeinstallprompt event for native PWA installation
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (installBtn) {
+                installBtn.style.display = 'block';
+            }
+        });
+
+        if (installBtn) {
+            installBtn.addEventListener('click', async () => {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to prompt: ${outcome}`);
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+            });
+        }
+
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA was installed');
+            if (installBtn) installBtn.style.display = 'none';
+        });
+    </script>
 </body>
 </html>
