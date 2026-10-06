@@ -51,7 +51,7 @@
         </div>
 
         <div style="margin-top:1.5rem; text-align:center;">
-            <button id="pwaInstallBtnLogin" class="btn-teal" style="background:#0E3847; width:100%; border-radius:10px; padding:0.75rem; font-size:0.95rem; font-weight:700; display:none;">
+            <button id="pwaInstallBtnLogin" class="btn-teal" style="background:#0E3847; width:100%; border-radius:10px; padding:0.75rem; font-size:0.95rem; font-weight:700;">
                 Install App
             </button>
         </div>
@@ -61,17 +61,11 @@
 <script>
     const loginInstallBtn = document.getElementById('pwaInstallBtnLogin');
     if (loginInstallBtn) {
-        if (window.deferredPrompt) loginInstallBtn.style.display = 'block';
-        window.addEventListener('beforeinstallprompt', (e) => {
-            loginInstallBtn.style.display = 'block';
-        });
-        loginInstallBtn.addEventListener('click', async () => {
+        loginInstallBtn.addEventListener('click', () => {
             if (window.deferredPrompt) {
                 window.deferredPrompt.prompt();
-                const { outcome } = await window.deferredPrompt.userChoice;
-                console.log('Login page install choice outcome:', outcome);
-                window.deferredPrompt = null;
-                loginInstallBtn.style.display = 'none';
+            } else if (typeof showPwaInstallModal === 'function') {
+                showPwaInstallModal();
             }
         });
     }
