@@ -247,10 +247,10 @@
             </div>
 
             <div class="sidebar-footer">
-                <button id="pwaInstallBtn" class="logout-btn" style="display:none; background:#0F766E; border-color:#0F766E; color:#FFFFFF; margin-bottom:0.5rem; text-align:center;">
+                <button id="pwaInstallBtn" class="logout-btn" style="display:block; background:#0F766E; border-color:#0F766E; color:#FFFFFF; margin-bottom:0.75rem; text-align:center; font-weight:700; width:100%; cursor:pointer;">
                     📲 Install App
                 </button>
-                <a href="/admin/" class="admin-link">Manage in admin →</a>
+                <a href="/admin/" class="admin-link" style="display:block; margin-bottom:0.5rem;">Manage in admin →</a>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
                     <button type="submit" class="logout-btn">Log out ({{ user.username }})</button>
@@ -279,12 +279,37 @@
         </div>
     </div>
 
+    <!-- PWA Install Guide Modal (Pops out when clicked if browser prompt is pending) -->
+    <div id="pwaGuideModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.65); backdrop-filter:blur(4px); z-index:10000; align-items:center; justify-content:center; padding:1.25rem;">
+        <div style="background:#FFFFFF; color:#0F2942; border-radius:20px; max-width:420px; width:100%; padding:2rem; box-shadow:0 20px 40px rgba(0,0,0,0.3); border:1px solid #CCFBF1; text-align:center; position:relative;">
+            <button id="closeGuideModalBtn" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.25rem; cursor:pointer; color:#475569;">✕</button>
+            <div style="display:inline-flex; align-items:center; justify-content:center; width:60px; height:60px; background:#ECFEFF; border-radius:16px; margin-bottom:1rem; border:1px solid #99F6E4;">
+                <img src="/static/img/icon-192.png" alt="App Icon" style="width:42px; height:42px; border-radius:10px;">
+            </div>
+            <h3 style="margin:0 0 0.5rem 0; color:#164E63; font-size:1.3rem; font-weight:800;">Install Hangarin App</h3>
+            <p style="color:#475569; font-size:0.9rem; margin-bottom:1.25rem; line-height:1.4;">Follow these simple steps to install Hangarin on your device:</p>
+            
+            <div style="background:#F0FDFA; border:1px solid #99F6E4; border-radius:12px; padding:1rem; text-align:left; font-size:0.85rem; color:#0F766E; margin-bottom:1.25rem;">
+                <div style="font-weight:700; margin-bottom:0.4rem;">📱 Android / Chrome:</div>
+                <div style="margin-bottom:0.75rem; color:#334155;">1. Tap the browser menu (<b>⋮</b> top right).<br>2. Tap <b>"Install app"</b> or <b>"Add to Home screen"</b>.</div>
+                
+                <div style="font-weight:700; margin-bottom:0.4rem;">🍎 iPhone / Safari:</div>
+                <div style="color:#334155;">1. Tap the Share icon (<b>⎋</b> at bottom).<br>2. Scroll down and tap <b>"Add to Home Screen"</b>.</div>
+            </div>
+
+            <button id="gotItBtn" class="btn-teal" style="width:100%; text-align:center; font-size:0.95rem; padding:0.75rem; border-radius:10px; font-weight:700;">Got It</button>
+        </div>
+    </div>
+
     <script>
         let deferredPrompt;
         const installBanner = document.getElementById('pwaInstallBanner');
         const bannerInstallBtn = document.getElementById('pwaBannerInstallBtn');
         const bannerCloseBtn = document.getElementById('pwaBannerCloseBtn');
         const sidebarInstallBtn = document.getElementById('pwaInstallBtn');
+        const guideModal = document.getElementById('pwaGuideModal');
+        const closeGuideModalBtn = document.getElementById('closeGuideModalBtn');
+        const gotItBtn = document.getElementById('gotItBtn');
 
         // Register service worker
         if ('serviceWorker' in navigator) {
@@ -298,31 +323,46 @@
             e.preventDefault();
             deferredPrompt = e;
             if (installBanner) installBanner.style.display = 'flex';
-            if (sidebarInstallBtn) sidebarInstallBtn.style.display = 'block';
         });
 
         async function triggerPWAInstall() {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`PWA install choice: ${outcome}`);
-            deferredPrompt = null;
-            if (installBanner) installBanner.style.display = 'none';
-            if (sidebarInstallBtn) sidebarInstallBtn.style.display = 'none';
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`PWA install choice: ${outcome}`);
+                deferredPrompt = null;
+                if (installBanner) installBanner.style.display = 'none';
+            } else {
+                // If browser didn't fire automatic prompt, open the interactive guide popup modal
+                if (guideModal) guideModal.style.display = 'flex';
+            }
         }
 
         if (bannerInstallBtn) bannerInstallBtn.addEventListener('click', triggerPWAInstall);
         if (sidebarInstallBtn) sidebarInstallBtn.addEventListener('click', triggerPWAInstall);
+        
         if (bannerCloseBtn) {
             bannerCloseBtn.addEventListener('click', () => {
                 if (installBanner) installBanner.style.display = 'none';
+            });
+        }
+        
+        if (closeGuideModalBtn) {
+            closeGuideModalBtn.addEventListener('click', () => {
+                if (guideModal) guideModal.style.display = 'none';
+            });
+        }
+        
+        if (gotItBtn) {
+            gotItBtn.addEventListener('click', () => {
+                if (guideModal) guideModal.style.display = 'none';
             });
         }
 
         window.addEventListener('appinstalled', () => {
             console.log('Hangarin PWA was installed successfully');
             if (installBanner) installBanner.style.display = 'none';
-            if (sidebarInstallBtn) sidebarInstallBtn.style.display = 'none';
+            if (guideModal) guideModal.style.display = 'none';
         });
     </script>
 </body>
