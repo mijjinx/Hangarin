@@ -254,9 +254,8 @@
             </div>
 
             <div class="sidebar-footer">
-                <button id="pwaInstallBtn" class="logout-btn"
-                    style="display:none; background:#0F766E; border-color:#0F766E; color:#FFFFFF; margin-bottom:0.5rem; text-align:center;">
-                    📲 Install App
+                <button id="pwaInstallBtn" class="logout-btn" style="display:block; margin-bottom:0.75rem; width:100%; text-align:left; cursor:pointer;">
+                    Install App
                 </button>
                 <a href="/admin/" class="admin-link">Manage in admin →</a>
                 <form action="{% url 'logout' %}" method="post">
@@ -273,7 +272,7 @@
     </div>
 
     <script>
-        let deferredPrompt;
+        let deferredPrompt = window.deferredPrompt || null;
         const installBtn = document.getElementById('pwaInstallBtn');
 
         if ('serviceWorker' in navigator) {
@@ -285,18 +284,20 @@
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            if (installBtn) installBtn.style.display = 'block';
+            window.deferredPrompt = e;
         });
 
         if (installBtn) {
             installBtn.addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    console.log(`Installation outcome: ${outcome}`);
+                const promptEvent = deferredPrompt || window.deferredPrompt;
+                if (promptEvent) {
+                    promptEvent.prompt();
+                    const { outcome } = await promptEvent.userChoice;
+                    console.log(`Installation choice: ${outcome}`);
                     deferredPrompt = null;
+                    window.deferredPrompt = null;
                 } else {
-                    alert('App installation ready!\n\nIf the prompt does not pop up:\n1. Click the Install icon (🖥️ or ⊕) in your browser address bar.\n2. Or click Chrome/Edge Menu (⋮) ➔ Cast, save, and share ➔ Install Hangarin.');
+                    alert('To install Hangarin:\n\n1. Look at the right side of your browser address bar for the Install icon (🖥️ or ⊕).\n2. Or click Browser Menu (⋮) ➔ "Cast, save, and share" ➔ "Install Hangarin".');
                 }
             });
         }
