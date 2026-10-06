@@ -1,7 +1,50 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from .models import Task, SubTask, Category, Priority, Note
 from .forms import TaskForm, SubTaskForm, CategoryForm, PriorityForm, NoteForm
+
+def pwa_manifest_custom(request):
+    manifest_data = {
+        "id": "/",
+        "name": "Hangarin",
+        "short_name": "Hangarin",
+        "description": "A Progressive Web App version of Hangarin",
+        "start_url": "/accounts/login/",
+        "scope": "/",
+        "display": "standalone",
+        "orientation": "portrait",
+        "background_color": "#ECFEFF",
+        "theme_color": "#164E63",
+        "prefer_related_applications": False,
+        "icons": [
+            {
+                "src": "/static/img/icon-192.png",
+                "sizes": "192x192",
+                "type": "image/png",
+                "purpose": "any"
+            },
+            {
+                "src": "/static/img/icon-512.png",
+                "sizes": "512x512",
+                "type": "image/png",
+                "purpose": "any"
+            },
+            {
+                "src": "/static/img/icon-192.png",
+                "sizes": "192x192",
+                "type": "image/png",
+                "purpose": "maskable"
+            },
+            {
+                "src": "/static/img/icon-512.png",
+                "sizes": "512x512",
+                "type": "image/png",
+                "purpose": "maskable"
+            }
+        ]
+    }
+    return JsonResponse(manifest_data)
 
 @login_required
 def home(request):

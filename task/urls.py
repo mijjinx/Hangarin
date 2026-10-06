@@ -3,6 +3,7 @@ from allauth.account import views as allauth_views
 from . import views
 
 urlpatterns = [
+    path('manifest.json', views.pwa_manifest_custom, name='pwa_manifest_custom'),
     path('login/', allauth_views.login, name='login'),
     path('logout/', allauth_views.logout, name='logout'),
 
