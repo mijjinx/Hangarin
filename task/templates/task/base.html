@@ -247,6 +247,9 @@
             </div>
 
             <div class="sidebar-footer">
+                <button id="pwaInstallBtn" class="logout-btn" style="margin-bottom:0.75rem; width:100%; text-align:left; cursor:pointer;">
+                    Install App
+                </button>
                 <a href="/admin/" class="admin-link">Manage in admin →</a>
                 <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
@@ -260,5 +263,39 @@
             {% block content %}{% endblock %}
         </main>
     </div>
+
+    <script>
+        let deferredPrompt;
+        const installBtn = document.getElementById('pwaInstallBtn');
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/serviceworker.js')
+                .then(reg => console.log('ServiceWorker registered:', reg.scope))
+                .catch(err => console.error('ServiceWorker registration error:', err));
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        if (installBtn) {
+            installBtn.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log('User install choice:', outcome);
+                    deferredPrompt = null;
+                } else {
+                    alert('To install this app on your device:\n\n• On Chrome/Edge: Click the Install button in the address bar (or Menu ➔ Install app).\n• On iPhone/Safari: Tap Share ➔ Add to Home Screen.');
+                }
+            });
+        }
+
+        window.addEventListener('appinstalled', () => {
+            console.log('App was installed successfully');
+            if (installBtn) installBtn.style.display = 'none';
+        });
+    </script>
 </body>
 </html>
