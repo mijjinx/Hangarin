@@ -1,12 +1,7 @@
-var CACHE_NAME = 'hangarin-pwa-v5';
-var urlsToCache = [
+var CACHE_NAME = 'hangarin-pwa-v7';
+var PRECACHE_URLS = [
   '/',
   '/accounts/login/',
-  '/tasks/',
-  '/subtasks/',
-  '/notes/',
-  '/categories/',
-  '/priorities/',
   '/static/img/icon-192.png',
   '/static/img/icon-512.png'
 ];
@@ -15,13 +10,13 @@ self.addEventListener('install', function(e) {
   e.waitUntil(
     caches.open(CACHE_NAME).then(function(cache) {
       return Promise.all(
-        urlsToCache.map(function(url) {
+        PRECACHE_URLS.map(function(url) {
           return fetch(url).then(function(response) {
             if (response && response.status === 200) {
               return cache.put(url, response);
             }
           }).catch(function(err) {
-            console.log('SW cache skip for ' + url + ':', err);
+            console.log('SW precache skip for ' + url + ':', err);
           });
         })
       );
@@ -51,13 +46,19 @@ self.addEventListener('fetch', function(e) {
   if (e.request.method !== 'GET') return;
 
   e.respondWith(
-    caches.match(e.request).then(function(response) {
-      if (response) {
-        return response;
+    fetch(e.request).then(function(networkResponse) {
+      if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+        var responseToCache = networkResponse.clone();
+        caches.open(CACHE_NAME).then(function(cache) {
+          cache.put(e.request, responseToCache);
+        });
       }
-      return fetch(e.request).then(function(networkResponse) {
-        return networkResponse;
-      }).catch(function() {
+      return networkResponse;
+    }).catch(function() {
+      return caches.match(e.request).then(function(cachedResponse) {
+        if (cachedResponse) {
+          return cachedResponse;
+        }
         if (e.request.headers.get('accept') && e.request.headers.get('accept').includes('text/html')) {
           return caches.match('/accounts/login/') || caches.match('/');
         }
