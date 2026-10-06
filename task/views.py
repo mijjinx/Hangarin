@@ -10,7 +10,7 @@ def pwa_manifest_custom(request):
         "name": "Hangarin",
         "short_name": "Hangarin",
         "description": "A Progressive Web App version of Hangarin",
-        "start_url": "/accounts/login/",
+        "start_url": "/",
         "scope": "/",
         "display": "standalone",
         "orientation": "portrait",
@@ -44,7 +44,7 @@ def pwa_manifest_custom(request):
             }
         ]
     }
-    return JsonResponse(manifest_data)
+    return JsonResponse(manifest_data, content_type='application/manifest+json')
 
 @login_required
 def home(request):
