@@ -328,7 +328,10 @@
 
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/serviceworker.js', { scope: '/' })
-                .then(reg => console.log('SW Registered:', reg.scope))
+                .then(reg => {
+                    console.log('SW Registered:', reg.scope);
+                    reg.update();
+                })
                 .catch(err => console.error('SW Reg Error:', err));
         }
 
