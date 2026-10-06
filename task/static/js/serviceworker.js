@@ -1,4 +1,4 @@
-var CACHE_NAME = 'hangarin-pwa-v3';
+var CACHE_NAME = 'hangarin-pwa-v4';
 var urlsToCache = [
   '/',
   '/tasks/',
