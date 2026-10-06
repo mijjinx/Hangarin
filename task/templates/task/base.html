@@ -272,7 +272,6 @@
     </div>
 
     <script>
-        let deferredPrompt = window.deferredPrompt || null;
         const installBtn = document.getElementById('pwaInstallBtn');
 
         if ('serviceWorker' in navigator) {
@@ -281,23 +280,14 @@
                 .catch(err => console.error('SW Reg Error:', err));
         }
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            window.deferredPrompt = e;
-        });
-
         if (installBtn) {
             installBtn.addEventListener('click', async () => {
-                const promptEvent = deferredPrompt || window.deferredPrompt;
+                const promptEvent = window.deferredPrompt;
                 if (promptEvent) {
                     promptEvent.prompt();
                     const { outcome } = await promptEvent.userChoice;
-                    console.log(`Installation choice: ${outcome}`);
-                    deferredPrompt = null;
+                    console.log('Installation choice outcome:', outcome);
                     window.deferredPrompt = null;
-                } else {
-                    alert('To install Hangarin:\n\n1. Look at the right side of your browser address bar for the Install icon (🖥️ or ⊕).\n2. Or click Browser Menu (⋮) ➔ "Cast, save, and share" ➔ "Install Hangarin".');
                 }
             });
         }
