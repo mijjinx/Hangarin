@@ -45,6 +45,8 @@ INSTALLED_APPS = [
 
 if "pythonanywhere" in socket.gethostname():
     SITE_ID = 2
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 else:
     SITE_ID = 1
 
@@ -123,21 +125,23 @@ MAILERS = {
 
 PWA_APP_NAME = 'Hangarin'
 PWA_APP_DESCRIPTION = "A Progressive Web App version of Hangarin"
-PWA_APP_THEME_COLOR = '#0A0A0A'
-PWA_APP_BACKGROUND_COLOR = '#FFFFFF'
+PWA_APP_THEME_COLOR = '#164E63'
+PWA_APP_BACKGROUND_COLOR = '#ECFEFF'
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_SCOPE = '/'
 PWA_APP_ORIENTATION = 'portrait'
-PWA_APP_START_URL = '/'
+PWA_APP_START_URL = '/accounts/login/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
         'src': '/static/img/icon-192.png',
-        'sizes': '192x192'
+        'sizes': '192x192',
+        'type': 'image/png'
     },
     {
         'src': '/static/img/icon-512.png',
-        'sizes': '512x512'
+        'sizes': '512x512',
+        'type': 'image/png'
     }
 ]
 PWA_APP_ICONS_APPLE = [

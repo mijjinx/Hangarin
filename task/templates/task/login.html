@@ -49,6 +49,31 @@
         <div style="text-align:center; margin-top:1.5rem; font-size:0.9rem; color:#475569;">
             Don't have an account? <a href="{% url 'account_signup' %}" style="color:#0F766E; font-weight:700; text-decoration:none;">Sign Up</a>
         </div>
+
+        <div style="margin-top:1.5rem; text-align:center;">
+            <button id="pwaInstallBtnLogin" class="btn-teal" style="background:#0E3847; width:100%; border-radius:10px; padding:0.75rem; font-size:0.95rem; font-weight:700; display:none;">
+                Install App
+            </button>
+        </div>
     </div>
 </div>
+
+<script>
+    const loginInstallBtn = document.getElementById('pwaInstallBtnLogin');
+    if (loginInstallBtn) {
+        if (window.deferredPrompt) loginInstallBtn.style.display = 'block';
+        window.addEventListener('beforeinstallprompt', (e) => {
+            loginInstallBtn.style.display = 'block';
+        });
+        loginInstallBtn.addEventListener('click', async () => {
+            if (window.deferredPrompt) {
+                window.deferredPrompt.prompt();
+                const { outcome } = await window.deferredPrompt.userChoice;
+                console.log('Login page install choice outcome:', outcome);
+                window.deferredPrompt = null;
+                loginInstallBtn.style.display = 'none';
+            }
+        });
+    }
+</script>
 {% endblock %}
