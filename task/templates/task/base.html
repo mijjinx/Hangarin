@@ -327,7 +327,7 @@
         const pwaActionBtn = document.getElementById('pwaActionBtn');
 
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/serviceworker.js')
+            navigator.serviceWorker.register('/serviceworker.js', { scope: '/' })
                 .then(reg => console.log('SW Registered:', reg.scope))
                 .catch(err => console.error('SW Reg Error:', err));
         }
