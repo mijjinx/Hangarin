@@ -62,10 +62,10 @@
     const loginInstallBtn = document.getElementById('pwaInstallBtnLogin');
     if (loginInstallBtn) {
         loginInstallBtn.addEventListener('click', () => {
-            if (window.deferredPrompt) {
+            if (typeof triggerPwaInstallModal === 'function') {
+                triggerPwaInstallModal();
+            } else if (window.deferredPrompt) {
                 window.deferredPrompt.prompt();
-            } else if (typeof showPwaInstallModal === 'function') {
-                showPwaInstallModal();
             }
         });
     }
