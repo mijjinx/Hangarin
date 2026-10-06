@@ -22,6 +22,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".pythonanywhere.com"]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://hangarinproject.pythonanywhere.com",
+    "https://*.pythonanywhere.com",
+    "http://127.0.0.1",
+    "http://localhost",
+]
+
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 INSTALLED_APPS = [

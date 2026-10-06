@@ -296,24 +296,9 @@
                         const { outcome } = await window.deferredPrompt.userChoice;
                         console.log('User install choice:', outcome);
                         window.deferredPrompt = null;
-                        return;
                     } catch (e) {
                         console.error('Install prompt error:', e);
                     }
-                }
-
-                if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) {
-                    alert('Hangarin is already installed on your device! Search for Hangarin in your apps or start menu.');
-                    return;
-                }
-
-                const ua = navigator.userAgent.toLowerCase();
-                if (ua.includes('chrome') || ua.includes('edg')) {
-                    alert('To complete installation on your browser:\n\n1. Look at the right side of your address bar for the Install icon (📥 or ⊕).\n2. Or click Browser Menu (⋮) ➔ "Cast, save, and share" ➔ "Install Hangarin".');
-                } else if (ua.includes('iphone') || ua.includes('ipad')) {
-                    alert('To install on iOS:\n1. Tap the Share button (⎋).\n2. Tap "Add to Home Screen".');
-                } else {
-                    alert('Open your browser menu (⋮) and select "Install App" or "Add to Home Screen".');
                 }
             });
         }
