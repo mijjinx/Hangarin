@@ -125,8 +125,8 @@ MAILERS = {
 
 PWA_APP_NAME = 'Hangarin'
 PWA_APP_DESCRIPTION = "A Progressive Web App version of Hangarin"
-PWA_APP_THEME_COLOR = '#0A0A0A'
-PWA_APP_BACKGROUND_COLOR = '#FFFFFF'
+PWA_APP_THEME_COLOR = '#164E63'
+PWA_APP_BACKGROUND_COLOR = '#ECFEFF'
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_SCOPE = '/'
 PWA_APP_ORIENTATION = 'portrait'
@@ -137,13 +137,25 @@ PWA_APP_ICONS = [
         'src': '/static/img/icon-192.png',
         'sizes': '192x192',
         'type': 'image/png',
-        'purpose': 'any maskable'
+        'purpose': 'any'
+    },
+    {
+        'src': '/static/img/icon-192.png',
+        'sizes': '192x192',
+        'type': 'image/png',
+        'purpose': 'maskable'
     },
     {
         'src': '/static/img/icon-512.png',
         'sizes': '512x512',
         'type': 'image/png',
-        'purpose': 'any maskable'
+        'purpose': 'any'
+    },
+    {
+        'src': '/static/img/icon-512.png',
+        'sizes': '512x512',
+        'type': 'image/png',
+        'purpose': 'maskable'
     }
 ]
 PWA_APP_ICONS_APPLE = [
