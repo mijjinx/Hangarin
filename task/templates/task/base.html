@@ -3,6 +3,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        window.deferredPrompt = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            window.deferredPrompt = e;
+        });
+    </script>
     {% progressive_web_app_meta %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -265,7 +272,6 @@
     </div>
 
     <script>
-        let deferredPrompt;
         const installBtn = document.getElementById('pwaInstallBtn');
 
         if ('serviceWorker' in navigator) {
@@ -274,26 +280,21 @@
                 .catch(err => console.error('ServiceWorker registration error:', err));
         }
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-        });
-
         if (installBtn) {
             installBtn.addEventListener('click', async () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    console.log('User install choice:', outcome);
-                    deferredPrompt = null;
+                if (window.deferredPrompt) {
+                    window.deferredPrompt.prompt();
+                    const { outcome } = await window.deferredPrompt.userChoice;
+                    console.log('User choice outcome:', outcome);
+                    window.deferredPrompt = null;
                 } else {
-                    alert('To install this app on your device:\n\n• On Chrome/Edge: Click the Install button in the address bar (or Menu ➔ Install app).\n• On iPhone/Safari: Tap Share ➔ Add to Home Screen.');
+                    alert('Installation ready! If the prompt does not pop up automatically:\n\n• Click the Install icon (🖥️ or ⊕) in the browser address bar.\n• Or click Chrome/Edge Menu (⋮) ➔ "Cast, save, and share" ➔ "Install Hangarin".');
                 }
             });
         }
 
         window.addEventListener('appinstalled', () => {
-            console.log('App was installed successfully');
+            console.log('App installed successfully');
             if (installBtn) installBtn.style.display = 'none';
         });
     </script>
