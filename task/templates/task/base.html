@@ -299,13 +299,24 @@
             <button id="closePwaPopup" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.25rem; cursor:pointer; color:#475569;">✕</button>
 
             <h3 style="margin:0 0 0.5rem 0; color:#164E63; font-size:1.35rem; font-weight:800;">Install Hangarin App</h3>
-            <p style="color:#475569; font-size:0.9rem; margin-bottom:1.5rem; line-height:1.45;">
+            <p style="color:#475569; font-size:0.9rem; margin-bottom:1.25rem; line-height:1.45;">
                 Install Hangarin on your device home screen or desktop for fast offline task management.
             </p>
 
-            <button id="pwaActionBtn" class="btn-teal" style="width:100%; text-align:center; font-size:1rem; padding:0.85rem; border-radius:12px; font-weight:700; cursor:pointer;">
+            <button id="pwaActionBtn" class="btn-teal" style="width:100%; text-align:center; font-size:1rem; padding:0.85rem; border-radius:12px; font-weight:700; cursor:pointer; margin-bottom:0.75rem;">
                 Install Application
             </button>
+
+            <div id="pwaFallbackNote" style="display:none; text-align:left; background:#F0FDFA; border:1px solid #99F6E4; border-radius:12px; padding:0.85rem; font-size:0.85rem; color:#0F766E;">
+                <div id="pwaIosNote" style="display:none;">
+                    <strong>iPhone / iPad (Safari):</strong><br>
+                    Tap the <strong>Share</strong> button (square with arrow up) in Safari ➔ select <strong>Add to Home Screen</strong>.
+                </div>
+                <div id="pwaAndroidNote" style="display:none;">
+                    <strong>Android / Mobile Device:</strong><br>
+                    Tap your browser menu <strong>(⋮)</strong> top-right ➔ select <strong>Install app</strong> or <strong>Add to Home screen</strong>.
+                </div>
+            </div>
         </div>
     </div>
 
@@ -321,11 +332,33 @@
                 .catch(err => console.error('SW Reg Error:', err));
         }
 
+        function openPwaModal() {
+            const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const fallbackNote = document.getElementById('pwaFallbackNote');
+            const iosNote = document.getElementById('pwaIosNote');
+            const androidNote = document.getElementById('pwaAndroidNote');
+
+            if (window.deferredPrompt) {
+                if (fallbackNote) fallbackNote.style.display = 'none';
+            } else {
+                if (fallbackNote) fallbackNote.style.display = 'block';
+                if (isIos) {
+                    if (iosNote) iosNote.style.display = 'block';
+                    if (androidNote) androidNote.style.display = 'none';
+                } else {
+                    if (iosNote) iosNote.style.display = 'none';
+                    if (androidNote) androidNote.style.display = 'block';
+                }
+            }
+
+            if (pwaPopup) pwaPopup.style.display = 'flex';
+        }
+
         function triggerPwaInstallModal() {
             if (window.deferredPrompt) {
                 window.deferredPrompt.prompt();
-            } else if (pwaPopup) {
-                pwaPopup.style.display = 'flex';
+            } else {
+                openPwaModal();
             }
         }
 
@@ -342,8 +375,10 @@
                         console.log('User response to install prompt:', outcome);
                     } catch(e) {}
                     window.deferredPrompt = null;
+                    if (pwaPopup) pwaPopup.style.display = 'none';
+                } else {
+                    openPwaModal();
                 }
-                if (pwaPopup) pwaPopup.style.display = 'none';
             });
         }
 
