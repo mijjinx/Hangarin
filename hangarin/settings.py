@@ -130,7 +130,7 @@ PWA_APP_BACKGROUND_COLOR = '#ECFEFF'
 PWA_APP_DISPLAY = 'standalone'
 PWA_APP_SCOPE = '/'
 PWA_APP_ORIENTATION = 'portrait'
-PWA_APP_START_URL = '/'
+PWA_APP_START_URL = '/accounts/login/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
