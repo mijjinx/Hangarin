@@ -45,6 +45,8 @@ INSTALLED_APPS = [
 
 if "pythonanywhere" in socket.gethostname():
     SITE_ID = 2
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 else:
     SITE_ID = 1
 
