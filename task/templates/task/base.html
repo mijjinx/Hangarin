@@ -2,21 +2,17 @@
 {% load pwa %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <script>
-        window.deferredPrompt = null;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            window.deferredPrompt = e;
-        });
-    </script>
     {% progressive_web_app_meta %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Hangarin – Task Manager{% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --navy: #164E63;
@@ -220,6 +216,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="layout-container">
         {% if user.is_authenticated %}
@@ -238,24 +235,28 @@
                     <a href="{% url 'task_list' %}" class="nav-item {% if active_tab == 'tasks' %}active{% endif %}">
                         <span>✓</span> Tasks
                     </a>
-                    <a href="{% url 'subtask_list' %}" class="nav-item {% if active_tab == 'subtasks' %}active{% endif %}">
+                    <a href="{% url 'subtask_list' %}"
+                        class="nav-item {% if active_tab == 'subtasks' %}active{% endif %}">
                         <span>↳</span> Subtasks
                     </a>
                     <a href="{% url 'note_list' %}" class="nav-item {% if active_tab == 'notes' %}active{% endif %}">
                         <span>✏</span> Notes
                     </a>
-                    <a href="{% url 'category_list' %}" class="nav-item {% if active_tab == 'categories' %}active{% endif %}">
+                    <a href="{% url 'category_list' %}"
+                        class="nav-item {% if active_tab == 'categories' %}active{% endif %}">
                         <span>▤</span> Categories
                     </a>
-                    <a href="{% url 'priority_list' %}" class="nav-item {% if active_tab == 'priorities' %}active{% endif %}">
+                    <a href="{% url 'priority_list' %}"
+                        class="nav-item {% if active_tab == 'priorities' %}active{% endif %}">
                         <span>◆</span> Priorities
                     </a>
                 </nav>
             </div>
 
             <div class="sidebar-footer">
-                <button id="pwaInstallBtn" class="logout-btn" style="margin-bottom:0.75rem; width:100%; text-align:left; cursor:pointer;">
-                    Install App
+                <button id="pwaInstallBtn" class="logout-btn"
+                    style="display:none; background:#0F766E; border-color:#0F766E; color:#FFFFFF; margin-bottom:0.5rem; text-align:center;">
+                    📲 Install App
                 </button>
                 <a href="/admin/" class="admin-link">Manage in admin →</a>
                 <form action="{% url 'logout' %}" method="post">
@@ -272,29 +273,36 @@
     </div>
 
     <script>
+        let deferredPrompt;
         const installBtn = document.getElementById('pwaInstallBtn');
 
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/serviceworker.js')
-                .then(reg => console.log('ServiceWorker registered:', reg.scope))
-                .catch(err => console.error('ServiceWorker registration error:', err));
+                .then(reg => console.log('SW Registered:', reg.scope))
+                .catch(err => console.error('SW Reg Error:', err));
         }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            if (installBtn) installBtn.style.display = 'block';
+        });
 
         if (installBtn) {
             installBtn.addEventListener('click', async () => {
-                if (window.deferredPrompt) {
-                    window.deferredPrompt.prompt();
-                    const { outcome } = await window.deferredPrompt.userChoice;
-                    console.log('User choice outcome:', outcome);
-                    window.deferredPrompt = null;
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log(`Installation outcome: ${outcome}`);
+                    deferredPrompt = null;
                 } else {
-                    alert('Installation ready! If the prompt does not pop up automatically:\n\n• Click the Install icon (🖥️ or ⊕) in the browser address bar.\n• Or click Chrome/Edge Menu (⋮) ➔ "Cast, save, and share" ➔ "Install Hangarin".');
+                    alert('App installation ready!\n\nIf the prompt does not pop up:\n1. Click the Install icon (🖥️ or ⊕) in your browser address bar.\n2. Or click Chrome/Edge Menu (⋮) ➔ Cast, save, and share ➔ Install Hangarin.');
                 }
             });
         }
 
         window.addEventListener('appinstalled', () => {
-            console.log('App installed successfully');
+            console.log('Hangarin PWA was installed successfully');
             if (installBtn) installBtn.style.display = 'none';
         });
     </script>
